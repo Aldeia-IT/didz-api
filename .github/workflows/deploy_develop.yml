@@ -1,0 +1,72 @@
+name: Build and Deploy to dev Elastic Beanstalk
+
+on:
+  push:
+      branches:
+        - develop
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Get Branch name
+        id: get-branch
+        run: echo ::set-output name=branch-name::${GITHUB_REF#refs/*/}
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: dids-dev
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd api/
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Generate Deploy File
+        env:
+          IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+        run: |
+          envsubst < Dockerrun.template.json > Dockerrun.aws.json
+          zip -r deploy.zip Dockerrun.aws.json
+      - name: Deploy to EB - dev env
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: dids-dev
+          environment_name: dids-dev-env-1
+          version_label: ${{github.sha}}
+          region: us-east-1
+          use_existing_version_if_available: true
+          deployment_package: deploy.zip
+          wait_for_deployment: false
+
+      - name: Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr.outputs.registry }}
