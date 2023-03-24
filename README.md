@@ -1,19 +1,4 @@
-## Add the .env in the /
-
-```bash
-cp .env.example .env
-```
-
-## Add the .env in the ./main
-
-```bash
-cd main
-cp .env.example .env
-```
-
-
-
-## Run the application with Docker Compose
+## Run the application with Docker Compose locally
 
 ```bash
 docker-compose up --remove-orphans --force-recreate
@@ -37,11 +22,11 @@ docker-compose up --remove-orphans --force-recreate
 
 ## Deploy to EBS
 
-Pushing to dev branch will deploy to EBS
+Pushing to develop branch will deploy to EBS
 
 ## PR To DEV
 
-Checking this actions
+Github Action checks this actions
 
 ```bash
 npm install
