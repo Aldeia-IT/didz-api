@@ -9,6 +9,10 @@ docker-compose up --remove-orphans --force-recreate
 
 - API -> http://localhost:3000/
 
+## Healthcheck of the API
+
+- Healthcheck -> http://localhost:3000/healthcheck
+
 
 ## Architecture of the project
 
