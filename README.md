@@ -41,7 +41,7 @@ Pushing to dev branch will deploy to EBS
 
 ## PR To DEV
 
-Checking this steps
+Checking this actions
 
 ```bash
 npm install
