@@ -3,7 +3,7 @@ name: Build and Deploy to dev Elastic Beanstalk
 on:
   push:
       branches:
-        - dev
+        - develop
 jobs:
   build:
     # The type of runner that the job will run on
