@@ -60,7 +60,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: dids-dev
-          environment_name: dids-develop-env
+          environment_name: dids-dev-env-1
           version_label: ${{github.sha}}
           region: us-east-1
           use_existing_version_if_available: true
