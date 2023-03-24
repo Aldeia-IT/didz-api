@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+      target: build
+
+    image: didz-api
+    ports:
+      - "3000:3000" # expose-to-the-world : only-in-the-docker
+    container_name: didz-api
