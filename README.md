@@ -14,6 +14,13 @@ docker-compose up --remove-orphans --force-recreate
 - Healthcheck -> http://localhost:3000/healthcheck
 
 
+
+## Swagger of the API
+
+- Swagger -> http://localhost:3000/api
+
+
+
 ## Architecture of the project
 
 ```bash
