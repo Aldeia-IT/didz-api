@@ -48,11 +48,11 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-      - name: Generate Deploy File
+      
+      - name: Generate deployment package
         env:
           IMAGE_NAME: ${{ steps.build-image.outputs.image }}
-        run: |
-          zip -r deploy.zip
+        run: zip -r deploy.zip . -x '*.git*'  
       - name: Deploy to EB - dev env
         uses: einaregilsson/beanstalk-deploy@v18
         with:
