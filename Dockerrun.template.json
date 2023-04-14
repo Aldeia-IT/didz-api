@@ -1,13 +1,5 @@
 {
-  "AWSEBDockerrunVersion": 2,
-  "volumes": [
-    {
-      "name": "ipfs-data",
-      "host": {
-        "sourcePath": "/var/app/current/ipfs-data"
-      }
-    }
-  ],
+  "AWSEBDockerrunVersion": 3,
   "containerDefinitions": [
     {
       "name": "$IMAGE_NAME",
@@ -46,6 +38,14 @@
           "containerPath": "/data/ipfs"
         }
       ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "ipfs-data",
+      "host": {
+        "sourcePath": "/var/app/current/ipfs-data"
+      }
     }
   ]
 }
