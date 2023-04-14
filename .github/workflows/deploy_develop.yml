@@ -52,8 +52,7 @@ jobs:
         env:
           IMAGE_NAME: ${{ steps.build-image.outputs.image }}
         run: |
-          envsubst < Dockerrun.template.json > Dockerrun.aws.json
-          zip -r deploy.zip Dockerrun.aws.json
+          zip -r deploy.zip
       - name: Deploy to EB - dev env
         uses: einaregilsson/beanstalk-deploy@v18
         with:
