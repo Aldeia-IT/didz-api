@@ -1,38 +1,11 @@
 {
-    "AWSEBDockerrunVersion": 1,
-    "containerDefinitions": [
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+      "Name": "$IMAGE_NAME"
+  },
+  "Ports": [
       {
-        "name": "didz-api",
-        "image": "didz-api",
-        "essential": true,
-        "memory": 256,
-        "portMappings": [
-          {
-            "hostPort": 80,
-            "containerPort": 3000
-          }
-        ]
-      },
-      {
-        "name": "ipfs",
-        "image": "ipfs/kubo:master-latest",
-        "essential": true,
-        "memory": 256,
-        "portMappings": [
-          {
-            "hostPort": 4001,
-            "containerPort": 4001
-          },
-          {
-            "hostPort": 5001,
-            "containerPort": 5001
-          },
-          {
-            "hostPort": 8080,
-            "containerPort": 8080
-          }
-        ]
+          "ContainerPort": "3000"
       }
-    ]
-  }
-  
+  ]
+}
