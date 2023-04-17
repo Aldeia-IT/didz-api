@@ -1,9 +1,11 @@
 import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { DidService } from './did.service';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
 export class DidController {
+  constructor(private didService: DidService) {}
   @Get('/')
   async getDids() {
     return ['did1', 'did2', 'did3'];
@@ -21,7 +23,7 @@ export class DidController {
 
   @Post('/create')
   async createDid() {
-    return 'did1 created';
+    this.didService.createDid('test');
   }
 
   @Post('/resolve')
