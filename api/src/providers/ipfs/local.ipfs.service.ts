@@ -8,8 +8,8 @@ export class LocalIpfsService implements IpfsProvider {
     console.log('calling upload and pin file from local service');
     throw new Error('Method not implemented.');
   }
-  uploadAndPinText(text: string): Promise<string> {
-    console.log('calling upload and pin text from local service');
+  uploadAndPinJson(json: any): Promise<string> {
+    console.log('calling upload and pin text from local service', json);
     throw new Error('Method not implemented.');
   }
 }

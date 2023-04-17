@@ -5,8 +5,10 @@ import { IpfsService } from '../../providers/ipfs/ipfs.service';
 export class DidService {
   constructor(private ipfsService: IpfsService) {}
   async createDid(text: string) {
-    const filePath = './path/to/your/file.txt';
-    const ipfsUrl = await this.ipfsService.uploadAndPinText(text);
+    const data = {
+      did: 'did:ethr:123',
+    };
+    const ipfsUrl = await this.ipfsService.uploadAndPinJson(data);
     console.log('File uploaded and pinned successfully:', ipfsUrl);
     return 'did1 created';
   }

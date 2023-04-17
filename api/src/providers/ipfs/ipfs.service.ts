@@ -7,7 +7,7 @@ export class IpfsService {
     return this.ipfsProvider.uploadAndPinFile(filePath);
   }
 
-  async uploadAndPinText(text: string): Promise<string> {
-    return this.ipfsProvider.uploadAndPinText(text);
+  async uploadAndPinJson(json: any): Promise<string> {
+    return this.ipfsProvider.uploadAndPinJson(json);
   }
 }
