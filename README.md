@@ -1,3 +1,14 @@
+
+# Architecture of the project
+
+```bash
+/didz-api
+    docker-compose.yml
+    /api
+        Dockerfile
+```
+
+
 # Local deploy
 
 ## Run the application with Docker Compose locally
@@ -19,17 +30,6 @@ docker-compose up --remove-orphans --force-recreate
 ## Swagger of the API
 
 - Swagger -> http://localhost:3000/api
-
-
-
-# Architecture of the project
-
-```bash
-/didz-api
-    docker-compose.yml
-    /api
-        Dockerfile
-```
 
 
 # Deploy to EBS
