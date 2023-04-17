@@ -45,4 +45,31 @@ npm run lint
 npm test
 ```
 
-KUBO
+## IPFS With KUBO Locally
+
+## Adding a file to IPFS
+
+```bash
+curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/add"
+```
+
+## IPFS Web UI
+
+WebUI: http://127.0.0.1:5001/webui
+
+
+## To get the IPFS file
+
+http://127.0.0.1:8080/ipfs/{CID}
+
+## The IPFS Local Gateway
+
+http://127.0.0.1:8080/ipfs
+
+
+## Getting a list of IPFS pinned files 
+
+```bash
+curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
+```
+
