@@ -10,4 +10,8 @@ export class IpfsService {
   async uploadAndPinJson(json: any): Promise<string> {
     return this.ipfsProvider.uploadAndPinJson(json);
   }
+
+  async retrieveJson(cid: string): Promise<string> {
+    return this.ipfsProvider.retrieveJson(cid);
+  }
 }

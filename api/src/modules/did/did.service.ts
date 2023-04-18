@@ -12,4 +12,10 @@ export class DidService {
     console.log('File uploaded and pinned successfully:', ipfsUrl);
     return 'did1 created';
   }
+
+  async retrieveDid(cid: string) {
+    const data = await this.ipfsService.retrieveJson(cid);
+    console.log('File retrieved successfully:', data);
+    return 'did1 retrieved';
+  }
 }

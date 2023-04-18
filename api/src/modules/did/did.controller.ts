@@ -28,7 +28,9 @@ export class DidController {
 
   @Post('/resolve')
   async resolveDid() {
-    return 'did1 resolved';
+    this.didService.retrieveDid(
+      'bafkreihfkgkv2k5lpseav4l5ptgnhbi7yjxu3gv6ozhmtri6ewyykluozi',
+    );
   }
 
   @Put('/update')

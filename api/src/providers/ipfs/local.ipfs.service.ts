@@ -12,4 +12,9 @@ export class LocalIpfsService implements IpfsProvider {
     console.log('calling upload and pin text from local service', json);
     throw new Error('Method not implemented.');
   }
+
+  retrieveJson(cid: string): Promise<string> {
+    console.log('calling retrieve json from local service', cid);
+    throw new Error('Method not implemented.');
+  }
 }

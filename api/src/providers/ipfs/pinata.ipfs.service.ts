@@ -6,10 +6,13 @@ import { IpfsProvider } from './ipfs.provider.interface';
 export class PinataIpfsService implements IpfsProvider {
   private pinataApiKey: string;
   private pinataSecretApiKey: string;
-
+  private pinataApiUrl: string;
+  private pinataGateway: string;
   constructor() {
     this.pinataApiKey = process.env.PINATA_IPFS_API_KEY;
     this.pinataSecretApiKey = process.env.PINATA_IPFS_API_SECRET;
+    this.pinataApiUrl = process.env.PINATA_IPFS_API_URL;
+    this.pinataGateway = process.env.PINATA_IPFS_GATEWAY;
   }
 
   uploadAndPinFile(filePath: string): Promise<string> {
@@ -33,7 +36,7 @@ export class PinataIpfsService implements IpfsProvider {
 
     const config = {
       method: 'post',
-      url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+      url: this.pinataApiUrl,
       headers: {
         'Content-Type': 'application/json',
         pinata_api_key: this.pinataApiKey,
@@ -45,5 +48,16 @@ export class PinataIpfsService implements IpfsProvider {
     const res = await axios(config);
     console.log('response', res);
     return res.data.IpfsHash;
+  }
+
+  async retrieveJson(cid: string): Promise<string> {
+    try {
+      const response = await axios.get(`${this.pinataGateway}/${cid}`);
+      console.log('response', response);
+      return response.data;
+    } catch (error) {
+      console.error(`Error retrieving file with CID ${cid}:`, error);
+      throw error;
+    }
   }
 }
