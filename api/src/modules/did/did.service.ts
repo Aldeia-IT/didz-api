@@ -6,7 +6,7 @@ export class DidService {
   constructor(private ipfsService: IpfsService) {}
   async createDid(text: string) {
     const data = {
-      did: 'did:ethr:123',
+      did: 'did:ethr:123x',
     };
     const ipfsUrl = await this.ipfsService.uploadAndPinJson(data);
     console.log('File uploaded and pinned successfully:', ipfsUrl);
