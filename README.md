@@ -118,3 +118,11 @@ curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
 - Local Gateway: http://127.0.0.1:8080/ipfs
 
 
+## IPFS Mutable
+
+https://docs.ipfs.tech/concepts/file-systems/#mutable-file-system-mfs
+
+curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/files/write?arg=/file.txt&create"
+curl -X POST "http://127.0.0.1:5001/api/v0/files/read?arg=/file.txt"
+curl -X POST "http://127.0.0.1:5001/api/v0/files/stat?arg=/file.txt"
+
