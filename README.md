@@ -1,3 +1,16 @@
+
+# Architecture of the project
+
+```bash
+/didz-api
+    docker-compose.yml
+    /api
+        Dockerfile
+```
+
+
+# Local deploy
+
 ## Run the application with Docker Compose locally
 
 ```bash
@@ -14,24 +27,12 @@ docker-compose up --remove-orphans --force-recreate
 - Healthcheck -> http://localhost:3000/healthcheck
 
 
-
 ## Swagger of the API
 
 - Swagger -> http://localhost:3000/api
 
 
-
-## Architecture of the project
-
-```bash
-/didz-api
-    docker-compose.yml
-    /api
-        Dockerfile
-```
-
-
-## Deploy to EBS
+# Deploy to EBS
 
 Pushing to develop branch will deploy to EBS
 
@@ -45,7 +46,7 @@ npm run lint
 npm test
 ```
 
-## IPFS With KUBO Locally
+# IPFS With KUBO Locally
 
 ## Adding a file to IPFS
 
