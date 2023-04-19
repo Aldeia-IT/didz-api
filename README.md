@@ -13,6 +13,8 @@
 
 ## Run the application with Docker Compose locally
 
+This will run the 'didz-api' and the 'didz-ipfs' containers.
+
 ```bash
 docker-compose up --remove-orphans --force-recreate
 ```
@@ -21,15 +23,11 @@ docker-compose up --remove-orphans --force-recreate
 ## Urls of deployed apps with Docker Compose
 
 - API -> http://localhost:3000/
-
-## Healthcheck of the API
-
 - Healthcheck -> http://localhost:3000/healthcheck
-
-
-## Swagger of the API
-
 - Swagger -> http://localhost:3000/api
+- IPFS WebUI: http://localhost:5001/webui
+- IPFS Get File by CID: http://localhost:8080/ipfs/{CID}
+- IPFS Local Gateway: http://localhost:8080/ipfs
 
 
 # Deploy to EBS
@@ -46,36 +44,6 @@ npm run lint
 npm test
 ```
 
-
-# IPFS With KUBO Locally
-
-This project has a docker container running the KUBO IPFS API
-
-## Adding a file to IPFS
-
-```bash
-curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/add"
-```
-
-## IPFS Web UI
-
-WebUI: http://127.0.0.1:5001/webui
-
-
-## To get the IPFS file
-
-http://127.0.0.1:8080/ipfs/{CID}
-
-## The IPFS Local Gateway
-
-http://127.0.0.1:8080/ipfs
-
-
-## Getting a list of IPFS pinned files 
-
-```bash
-curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
-```
 
 # IPFS Provider Configuration
 
@@ -123,3 +91,30 @@ To add a new IPFS provider:
 3. Add the necessary configuration settings for the new provider in the .env file.
 
 Finally, import the new provider into the ipfs.provider.factory.ts file, and the project will be ready to use it.
+
+
+# IPFS With KUBO Locally
+
+This project has a docker container running the KUBO IPFS API
+
+## Adding a file to IPFS
+
+```bash
+curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/add"
+```
+
+## Getting a list of IPFS pinned files 
+
+```bash
+curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
+```
+
+
+
+## IPFS URLS
+
+- WebUI: http://127.0.0.1:5001/webui
+- Get File by CID: http://127.0.0.1:8080/ipfs/{CID}
+- Local Gateway: http://127.0.0.1:8080/ipfs
+
+
