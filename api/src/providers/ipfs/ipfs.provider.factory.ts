@@ -10,7 +10,7 @@ export function ipfsProviderFactory(): IpfsProvider {
   if (ipfsProvider === 'pinata') {
     console.log('pinata implementation');
     return new PinataIpfsService();
-  } else if (ipfsProvider === 'local-ipfs') {
+  } else if (ipfsProvider === 'local') {
     console.log('local implementation');
     return new LocalIpfsService();
   } else {

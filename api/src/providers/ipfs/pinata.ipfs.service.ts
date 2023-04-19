@@ -20,40 +20,43 @@ export class PinataIpfsService implements IpfsProvider {
     throw new Error('Method not implemented.');
   }
   async uploadAndPinJson(json: any): Promise<string> {
-    console.log('calling upload and pin text from pinata service: ', json);
-    const data = JSON.stringify({
-      pinataOptions: {
-        cidVersion: 1,
-      },
-      pinataMetadata: {
-        name: json.did,
-      },
-      pinataContent: {
-        json,
-      },
-    });
-    console.log('data: ', data);
+    try {
+      console.log('calling upload and pin text from pinata service: ', json);
+      const data = JSON.stringify({
+        pinataOptions: {
+          cidVersion: 1,
+        },
+        pinataMetadata: {
+          name: json.did,
+        },
+        pinataContent: {
+          json,
+        },
+      });
+      console.log('data: ', data);
 
-    const config = {
-      method: 'post',
-      url: this.pinataApiUrl,
-      headers: {
-        'Content-Type': 'application/json',
-        pinata_api_key: this.pinataApiKey,
-        pinata_secret_api_key: this.pinataSecretApiKey,
-      },
-      data: data,
-    };
+      const config = {
+        method: 'post',
+        url: this.pinataApiUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          pinata_api_key: this.pinataApiKey,
+          pinata_secret_api_key: this.pinataSecretApiKey,
+        },
+        data: data,
+      };
 
-    const res = await axios(config);
-    console.log('response', res);
-    return res.data.IpfsHash;
+      const res = await axios(config);
+      return res.data.IpfsHash;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async retrieveJson(cid: string): Promise<string> {
+    console.log('Trying to retrieve this CID: ', cid);
     try {
       const response = await axios.get(`${this.pinataGateway}/${cid}`);
-      console.log('response', response);
       return response.data;
     } catch (error) {
       console.error(`Error retrieving file with CID ${cid}:`, error);

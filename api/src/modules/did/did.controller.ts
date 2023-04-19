@@ -29,7 +29,7 @@ export class DidController {
   @Post('/resolve')
   async resolveDid() {
     this.didService.retrieveDid(
-      'bafkreihfkgkv2k5lpseav4l5ptgnhbi7yjxu3gv6ozhmtri6ewyykluozi',
+      'QmTYBCZsizGWRBBLo6KPK8NKGSTYnx3xCrWUiM9Ldhpmcz',
     );
   }
 
