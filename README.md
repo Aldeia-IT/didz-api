@@ -118,8 +118,8 @@ interface IpfsProvider {
 
 To add a new IPFS provider:
 
-1- Implement the 'IpfsProvider' interface in your new provider class.
-2- Update the 'ipfs.provider.factory.ts' file to include the new provider.
-3- Add the necessary configuration settings for the new provider in the .env file.
+1. Implement the 'IpfsProvider' interface in your new provider class.
+2. Update the 'ipfs.provider.factory.ts' file to include the new provider.
+3. Add the necessary configuration settings for the new provider in the .env file.
 
 Finally, import the new provider into the ipfs.provider.factory.ts file, and the project will be ready to use it.
