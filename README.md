@@ -118,7 +118,7 @@ curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
 - Local Gateway: http://127.0.0.1:8080/ipfs
 
 
-## IPFS Mutable
+## IPFS Mutable File System (MFS)
 
 https://docs.ipfs.tech/concepts/file-systems/#mutable-file-system-mfs
 
