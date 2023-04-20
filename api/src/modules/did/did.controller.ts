@@ -1,6 +1,17 @@
-import { Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DidAuthGuard } from '../../guards/didauth.guard';
+import { CreateDidDto } from './dtos/payload/create-did.dto';
+import { generateEd25519KeyPair } from '../../common/crypto-utils';
+import * as bs58 from 'bs58';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
@@ -22,8 +33,33 @@ export class DidController {
 
   @Post('/create')
   @UseGuards(DidAuthGuard)
-  async createDid() {
-    return 'did1 created';
+  async createDid(@Body() createDidDto: CreateDidDto) {
+    const didMethod = 'example';
+    const did = `did:${didMethod}:${createDidDto.address}`;
+    const didController = process.env.ADMIN_DID_CONTROLLER_ADDRESS;
+
+    const keyPair = generateEd25519KeyPair(didController);
+    //base58js.binary_to_base58(keyPair.publicKey);
+    const publicKeyMultibase = bs58
+      .encode(Buffer.from(keyPair.publicKey))
+      .toString();
+
+    const didDocument = {
+      '@context': 'https://www.w3.org/ns/did/v1',
+      id: did,
+      controller: didController,
+      verificationMethod: [
+        {
+          id: `${did}#keys-1`,
+          type: 'Ed25519VerificationKey2020',
+          controller: didController,
+          publicKeyBase58: publicKeyMultibase,
+        },
+      ],
+      authentication: [`${did}#keys-1`],
+    };
+
+    return didDocument;
   }
 
   @Post('/resolve')
