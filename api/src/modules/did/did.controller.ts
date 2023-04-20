@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { DidAuthGuard } from '../../guards/didauth.guard';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
@@ -20,6 +21,7 @@ export class DidController {
   }
 
   @Post('/create')
+  @UseGuards(DidAuthGuard)
   async createDid() {
     return 'did1 created';
   }
@@ -30,6 +32,7 @@ export class DidController {
   }
 
   @Put('/update')
+  @UseGuards(DidAuthGuard)
   async updateDid() {
     return 'did1 updated';
   }
