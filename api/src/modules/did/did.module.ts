@@ -4,6 +4,6 @@ import { DidService } from './did.service';
 
 @Module({
   controllers: [DidController],
-  providers: [DidService]
+  providers: [DidService],
 })
 export class DidModule {}
