@@ -39,13 +39,15 @@ export class DidController {
     const didController = process.env.ADMIN_DID_CONTROLLER_ADDRESS;
 
     const keyPair = generateEd25519KeyPair(didController);
-    //base58js.binary_to_base58(keyPair.publicKey);
-    const publicKeyMultibase = bs58
+    const publicKeyMultibase = `z${bs58
       .encode(Buffer.from(keyPair.publicKey))
-      .toString();
+      .toString()}`;
 
     const didDocument = {
-      '@context': 'https://www.w3.org/ns/did/v1',
+      '@context': [
+        'https://www.w3.org/ns/did/v1',
+        'https://w3id.org/security/suites/ed25519-2020/v1',
+      ],
       id: did,
       controller: didController,
       verificationMethod: [
@@ -53,7 +55,7 @@ export class DidController {
           id: `${did}#keys-1`,
           type: 'Ed25519VerificationKey2020',
           controller: didController,
-          publicKeyBase58: publicKeyMultibase,
+          publicKeyMultibase: publicKeyMultibase,
         },
       ],
       authentication: [`${did}#keys-1`],
