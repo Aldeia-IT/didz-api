@@ -1,9 +1,21 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { DidAuthGuard } from '../../guards/didauth.guard';
+import { CreateDidDto } from './dtos/payload/create-did.dto';
+import { DidService } from './did.service';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
 export class DidController {
+  constructor(private didService: DidService) {}
   @Get('/')
   async getDids() {
     return ['did1', 'did2', 'did3'];
@@ -20,16 +32,20 @@ export class DidController {
   }
 
   @Post('/create')
-  async createDid() {
-    return 'did1 created';
+  @UseGuards(DidAuthGuard)
+  async createDid(@Body() createDidDto: CreateDidDto) {
+    return this.didService.createDid(createDidDto);
   }
 
   @Post('/resolve')
   async resolveDid() {
-    return 'did1 resolved';
+    this.didService.retrieveDid(
+      'QmTYBCZsizGWRBBLo6KPK8NKGSTYnx3xCrWUiM9Ldhpmcz',
+    );
   }
 
   @Put('/update')
+  @UseGuards(DidAuthGuard)
   async updateDid() {
     return 'did1 updated';
   }
