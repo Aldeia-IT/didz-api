@@ -12,6 +12,8 @@ import { DidAuthGuard } from '../../guards/didauth.guard';
 import { CreateDidDto } from './dtos/payload/create-did.dto';
 import { generateEd25519KeyPair } from '../../common/crypto-utils';
 import * as bs58 from 'bs58';
+import Ajv from 'ajv';
+import axios from 'axios';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
@@ -60,6 +62,17 @@ export class DidController {
       ],
       authentication: [`${did}#keys-1`],
     };
+
+    didDocument[createDidDto.type] = JSON.parse(createDidDto.data);
+    console.log(didDocument);
+
+    const ajv = new Ajv();
+    const sch = await axios.get(createDidDto.schemaUrl);
+    const validate = ajv.compile(sch.data);
+
+    if (!validate(didDocument)) {
+      throw new Error(validate.errors.join(' '));
+    }
 
     return didDocument;
   }
