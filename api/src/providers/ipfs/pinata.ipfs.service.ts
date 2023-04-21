@@ -27,7 +27,7 @@ export class PinataIpfsService implements IpfsProvider {
           cidVersion: 1,
         },
         pinataMetadata: {
-          name: json.did,
+          name: json.id,
         },
         pinataContent: {
           json,
@@ -37,7 +37,7 @@ export class PinataIpfsService implements IpfsProvider {
 
       const config = {
         method: 'post',
-        url: this.pinataApiUrl,
+        url: `${this.pinataApiUrl}/pinning/pinJSONToIPFS`,
         headers: {
           'Content-Type': 'application/json',
           pinata_api_key: this.pinataApiKey,
