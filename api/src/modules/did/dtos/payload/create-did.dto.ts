@@ -1,6 +1,5 @@
 export class CreateDidDto {
-  address: string;
   type: string;
-  data: string;
+  data: object;
   schemaUrl: string;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { IpfsProvider } from './ipfs.provider.interface';
 
 @Injectable()
@@ -53,13 +53,27 @@ export class PinataIpfsService implements IpfsProvider {
     }
   }
 
-  async retrieveJson(cid: string): Promise<string> {
-    console.log('Trying to retrieve this CID: ', cid);
+  async retrieveJson(did: string): Promise<string> {
+    console.log('Trying to retrieve this DID: ', did);
+    const headers = {
+      headers: {
+        pinata_api_key: this.pinataApiKey,
+        pinata_secret_api_key: this.pinataSecretApiKey,
+      },
+    };
     try {
-      const response = await axios.get(`${this.pinataGateway}/${cid}`);
-      return response.data;
+      const response = await axios.get(
+        `${this.pinataApiUrl}/data/pinList?status=pinned&metadata[name]=${did}`,
+        headers,
+      );
+      const cid = response.data.rows[0].ipfs_pin_hash;
+      const cid_response = await axios.get(
+        `${this.pinataGateway}/${cid}`,
+        headers,
+      );
+      return cid_response.data.json;
     } catch (error) {
-      console.error(`Error retrieving file with CID ${cid}:`, error);
+      console.error(`Error retrieving file with CID ${did}:`, error);
       throw error;
     }
   }

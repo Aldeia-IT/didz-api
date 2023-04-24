@@ -12,3 +12,9 @@ export function generateEd25519KeyPair(controller: string) {
     privateKey: keyPair.secretKey,
   };
 }
+
+export function generateDidHas(data: string) {
+  return createHash('sha256')
+    .update(data + Date.now())
+    .digest('hex');
+}

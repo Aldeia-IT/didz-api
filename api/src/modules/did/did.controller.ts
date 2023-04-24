@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DidAuthGuard } from '../../guards/didauth.guard';
@@ -37,11 +38,9 @@ export class DidController {
     return this.didService.createDid(createDidDto);
   }
 
-  @Post('/resolve')
-  async resolveDid() {
-    this.didService.retrieveDid(
-      'QmTYBCZsizGWRBBLo6KPK8NKGSTYnx3xCrWUiM9Ldhpmcz',
-    );
+  @Get('/resolve/:did')
+  async resolveDid(@Param('did') did: string) {
+    return this.didService.retrieveDid(did);
   }
 
   @Put('/update')

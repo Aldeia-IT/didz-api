@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "84832eff-769a-4625-bd60-296fc1517d42",
+		"name": "DIDz Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "648020"
+	},
+	"item": [
+		{
+			"name": "01-Create DID Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var objResponse = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.environment.set(\"projectId\", objResponse.id);",
+							"",
+							"pm.test(\"Check response data\", function () {",
+							"     var jsonData = pm.response.json();",
+							"     console.log(jsonData)",
+							"     pm.expect(jsonData.id).to.be.a('string');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-did-key",
+						"value": "{{x-did-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\" : {\"title\": \"TitleTest\",\"summary\": \"This is a Summary Test\",\"location\": \"742 Evergreen Terrace, Springfield\",\"methodologies\": [\"ACM0002\", \"AR-AM0014\", \"VM0015\"]},\n    \"type\": \"project\",\n    \"schemaUrl\" : \"https://raw.githubusercontent.com/Aldeia-IT/didz-schema/main/projects/0.1/project.schema.json\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/did/create",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"did",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02-Resolve DID Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{api-url}}/did/resolve/{{projectId}}",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"did",
+						"resolve",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03-Create DID Credit Batch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var objResponse = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.environment.set(\"creditBatchId\", objResponse.id);",
+							"",
+							"pm.test(\"Check response data\", function () {",
+							"     var jsonData = pm.response.json();",
+							"     console.log(jsonData)",
+							"     pm.expect(jsonData.id).to.be.a('string');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-did-key",
+						"value": "{{x-did-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\" : {\"project\": \"{{projectId}}\", \"methodology\": \"ACM0002\"},\n    \"type\": \"creditBatch\",\n    \"schemaUrl\" : \"https://raw.githubusercontent.com/Aldeia-IT/didz-schema/main/credit-batches/0.1/credit-batch.schema.json\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-url}}/did/create",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"did",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04-Resolve DID Credit Batch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{api-url}}/did/resolve/{{creditBatchId}}",
+					"host": [
+						"{{api-url}}"
+					],
+					"path": [
+						"did",
+						"resolve",
+						"{{creditBatchId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api-url",
+			"value": "http://localhost:3000/",
+			"type": "string"
+		}
+	]
+}
