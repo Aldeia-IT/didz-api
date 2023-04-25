@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IpfsService } from '../../providers/ipfs/ipfs.service';
 import { CreateDidDto } from './dtos/payload/create-did.dto';
 import {
@@ -64,6 +64,7 @@ export class DidService {
       console.log('File uploaded and pinned successfully:', ipfsUrl);
       return didDocument;
     } catch (e) {
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
       console.log(e);
     }
   }

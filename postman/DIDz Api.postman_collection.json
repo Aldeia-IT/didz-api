@@ -80,7 +80,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "x-did-key",
+						"value": "{{x-did-key}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "urlencoded",
 					"urlencoded": []
@@ -173,7 +179,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "x-did-key",
+						"value": "{{x-did-key}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "urlencoded",
 					"urlencoded": []
