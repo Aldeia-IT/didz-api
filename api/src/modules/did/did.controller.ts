@@ -1,14 +1,14 @@
+import { Body, Controller, Get, Post, UseGuards, Param } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Put,
-  UseGuards,
-  Param,
-} from '@nestjs/common';
-import { ApiBody, ApiNoContentResponse, ApiTags } from '@nestjs/swagger';
+  ApiBody,
+  ApiTags,
+  ApiOperation,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiNotFoundResponse,
+} from '@nestjs/swagger';
 import { DidAuthGuard } from '../../guards/didauth.guard';
 import { CreateDidDto } from './dtos/payload/create-did.dto';
 import { DidService } from './did.service';
@@ -18,26 +18,13 @@ import { ApiParam } from '@nestjs/swagger';
 @Controller('did')
 export class DidController {
   constructor(private didService: DidService) {}
-  @Get('/')
-  async getDids() {
-    return ['did1', 'did2', 'did3'];
-  }
-
-  @Get('/:did')
-  async getDid() {
-    return 'did1';
-  }
-
-  @Delete('/:did')
-  async deleteDid() {
-    return 'did1 deleted';
-  }
 
   @Post('/create')
+  @ApiOperation({ summary: 'Create a DID and DID Document based in a schema' })
   @UseGuards(DidAuthGuard)
-  @ApiNoContentResponse({
-    description: 'Create a DID and DID Document based in a schema',
-  })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiCreatedResponse({ description: 'Created Succesfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
   @ApiBody({
     schema: {
       type: 'object',
@@ -64,9 +51,8 @@ export class DidController {
   }
 
   @Get('/resolve/:did')
-  @ApiNoContentResponse({
-    description: 'Retriving DID Document from a DID Address',
-  })
+  @ApiOperation({ summary: 'Retriving DID Document from a DID Address' })
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
   @ApiParam({
     name: 'did',
     description: 'DID Address',
@@ -74,11 +60,5 @@ export class DidController {
   })
   async resolveDid(@Param('did') did: string) {
     return this.didService.retrieveDid(did);
-  }
-
-  @Put('/update')
-  @UseGuards(DidAuthGuard)
-  async updateDid() {
-    return 'did1 updated';
   }
 }
