@@ -8,6 +8,7 @@ import {
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiSecurity,
 } from '@nestjs/swagger';
 import { DidAuthGuard } from '../../guards/didauth.guard';
 import { CreateDidDto } from './dtos/payload/create-did.dto';
@@ -25,27 +26,7 @@ export class DidController {
   @ApiBadRequestResponse({ description: 'Bad Request' })
   @ApiCreatedResponse({ description: 'Created Succesfully' })
   @ApiForbiddenResponse({ description: 'Unauthorized Request' })
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        type: {
-          description: 'project | creditBatch',
-          type: 'string',
-        },
-        schemaUrl: {
-          description:
-            'url to the schema. Ex. https://raw.githubusercontent.com/Aldeia-IT/didz-schema/main/credit-batches/0.1/credit-batch.schema.json',
-          type: 'string',
-        },
-        project: {
-          description:
-            'Project DID reference. Ex. did:ebf:80f81fbf42d7d4922eb700ae460948fdd96b20c3b52e4cd66ce06a3967fc8590',
-          type: 'string',
-        },
-      },
-    },
-  })
+  @ApiSecurity('x-did-key')
   async createDid(@Body() createDidDto: CreateDidDto) {
     return this.didService.createDid(createDidDto);
   }

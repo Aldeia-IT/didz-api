@@ -61,20 +61,29 @@ export class PinataIpfsService implements IpfsProvider {
         pinata_secret_api_key: this.pinataSecretApiKey,
       },
     };
+    let response;
+    let cid;
     try {
-      const response = await axios.get(
+      response = await axios.get(
         `${this.pinataApiUrl}/data/pinList?status=pinned&metadata[name]=${did}`,
         headers,
       );
-      const cid = response.data.rows[0].ipfs_pin_hash;
+    } catch (error) {
+      console.error(`Error retrieving file with DID ${did}:`, error);
+      throw new Error(`Error retrieving file with DID ${did}`);
+    }
+    try {
+      cid = response.data.rows[0].ipfs_pin_hash;
       const cid_response = await axios.get(
         `${this.pinataGateway}/${cid}`,
         headers,
       );
       return cid_response.data.json;
     } catch (error) {
-      console.error(`Error retrieving file with CID ${did}:`, error);
-      throw error;
+      console.error(`Error retrieving file with CID ${cid}:`, error);
+      throw new Error(
+        `Error retrieving file with CID ${cid}. Please try again later. Sometimes Pinata get more time to available files.`,
+      );
     }
   }
 }

@@ -70,8 +70,13 @@ export class DidService {
   }
 
   async retrieveDid(cid: string) {
-    const data = await this.ipfsService.retrieveJson(cid);
-    console.log('File retrieved successfully:', data);
-    return data;
+    try {
+      const data = await this.ipfsService.retrieveJson(cid);
+      console.log('File retrieved successfully:', data);
+      return data;
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+      console.log(e);
+    }
   }
 }
