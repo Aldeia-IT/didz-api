@@ -109,8 +109,6 @@ curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/add"
 curl -X POST "http://127.0.0.1:5001/api/v0/pin/ls?type=recursive"
 ```
 
-
-
 ## IPFS URLS
 
 - WebUI: http://127.0.0.1:5001/webui
@@ -126,3 +124,34 @@ curl -X POST -F file=@file.txt "http://127.0.0.1:5001/api/v0/files/write?arg=/fi
 curl -X POST "http://127.0.0.1:5001/api/v0/files/read?arg=/file.txt"
 curl -X POST "http://127.0.0.1:5001/api/v0/files/stat?arg=/file.txt"
 
+
+# Configuration .env variables
+```bash
+#ADMIN KEY AND ADDRESS
+#This is the key that you must provide in every request
+ADMIN_DID_KEY=1234
+
+#This is the DID added as a controller in every DID Document created
+ADMIN_DID_CONTROLLER_ADDRESS=did:ebf:5678
+
+#This is the method added in every DID Address created
+#example: did:ebf:eer7r77dfhh02003
+DEFAULT_DID_METHOD=ebf
+
+#SELECT IPFS PROVIDER
+#Ipfs providers can be: pinata or local
+IPFS_PROVIDER=pinata
+
+#PINATA IPFS NECCESARY CONFIGURATION
+PINATA_IPFS_API_URL=https://api.pinata.cloud
+PINATA_IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
+#You can create an account at https://app.pinata.cloud/register
+#In API KEYS section you can get api key and secret
+PINATA_IPFS_API_KEY=
+PINATA_IPFS_API_SECRET=
+
+#LOCAL IPFS
+#This is when you run a IPFS hosted by your own
+LOCAL_IPFS_API_URL=http://didz-ipfs:5001
+LOCAL_IPFS_GATEWAY=http://didz-ipfs:8080/ipfs
+```

@@ -6,8 +6,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('DIDZ API')
-    .setDescription('The DIDZ API description')
-    .setVersion('1.0.0')
+    .setDescription(
+      'The DIDZ API, creates a DID and DID Document based on a schema and retrieves the DID Document from a DID Address',
+    )
+    .setVersion('v0.1')
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'x-did-key',
+        in: 'header',
+        description: 'API key',
+      },
+      'x-did-key',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

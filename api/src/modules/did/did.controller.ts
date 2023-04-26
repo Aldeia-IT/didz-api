@@ -1,52 +1,45 @@
+import { Body, Controller, Get, Post, UseGuards, Param } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+  ApiBody,
+  ApiTags,
+  ApiOperation,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiNotFoundResponse,
+  ApiSecurity,
+} from '@nestjs/swagger';
 import { DidAuthGuard } from '../../guards/didauth.guard';
 import { CreateDidDto } from './dtos/payload/create-did.dto';
 import { DidService } from './did.service';
+import { ApiParam } from '@nestjs/swagger';
 
 @ApiTags('Decentralized Identifiers')
 @Controller('did')
 export class DidController {
   constructor(private didService: DidService) {}
-  @Get('/')
-  async getDids() {
-    return ['did1', 'did2', 'did3'];
-  }
-
-  @Get('/:did')
-  async getDid() {
-    return 'did1';
-  }
-
-  @Delete('/:did')
-  async deleteDid() {
-    return 'did1 deleted';
-  }
 
   @Post('/create')
+  @ApiOperation({ summary: 'Create a DID and DID Document based in a schema' })
   @UseGuards(DidAuthGuard)
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiCreatedResponse({ description: 'Created Succesfully' })
+  @ApiForbiddenResponse({ description: 'Unauthorized Request' })
+  @ApiSecurity('x-did-key')
   async createDid(@Body() createDidDto: CreateDidDto) {
     return this.didService.createDid(createDidDto);
   }
 
-  @Post('/resolve')
-  async resolveDid() {
-    this.didService.retrieveDid(
-      'QmTYBCZsizGWRBBLo6KPK8NKGSTYnx3xCrWUiM9Ldhpmcz',
-    );
-  }
-
-  @Put('/update')
-  @UseGuards(DidAuthGuard)
-  async updateDid() {
-    return 'did1 updated';
+  @Get('/resolve/:did')
+  @ApiOperation({ summary: 'Retriving DID Document from a DID Address' })
+  @ApiOkResponse({ description: 'The resource was returned successfully' })
+  @ApiParam({
+    name: 'did',
+    description: 'DID Address',
+    required: true,
+  })
+  async resolveDid(@Param('did') did: string) {
+    return this.didService.retrieveDid(did);
   }
 }
